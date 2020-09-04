@@ -13,7 +13,6 @@ export const ApplicationViews = (props) => {
     return (
         <>
             <LocationProvider>
-                {/* Render the location list when http://localhost:3000/ */}
                 <Route exact path="/">
                     <LocationList />
                 </Route>
@@ -21,10 +20,11 @@ export const ApplicationViews = (props) => {
 
             <AnimalProvider>
                 <CustomerProvider>
-                    {/* Render the animal list when http://localhost:3000/animals */}
-                    <Route path="/animals">
-                        <AnimalList />
-                    </Route>
+                    <LocationProvider>
+                        <Route path="/animals">
+                            <AnimalList />
+                        </Route>
+                    </LocationProvider>
                 </CustomerProvider>
             </AnimalProvider>
 
