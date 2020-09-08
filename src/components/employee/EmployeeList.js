@@ -1,17 +1,15 @@
 import React, { useContext, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider";
-import "./Employee.css"
 import { LocationContext } from "../location/LocationProvider.js";
+import "./Employee.css"
 
 export const EmployeeList = (burrito) => {
     const { employees, getEmployees } = useContext(EmployeeContext)
     const { locations, getLocations } = useContext(LocationContext)
 
     useEffect(() => {
-        console.log(" **** Employees before state pulled from API  ****")
         getEmployees().then(getLocations)
     }, [])
-
 
     return (
         <>
