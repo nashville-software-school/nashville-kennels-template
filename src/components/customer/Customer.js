@@ -1,5 +1,5 @@
 import React from "react"
-import "./Customer.css"
+import "./Customers.css"
 
 export const Customer = () => (
     <section className="customer">

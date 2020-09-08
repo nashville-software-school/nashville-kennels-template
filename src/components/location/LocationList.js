@@ -1,24 +1,13 @@
 import React, { useContext, useEffect } from "react"
 import { LocationContext } from "./LocationProvider";
-import "./Location.css"
+import "./Locations.css"
 
 export const LocationList = () => {
-    const {locations, getLocations} = useContext(LocationContext)
+    const { locations, getLocations } = useContext(LocationContext)
 
     useEffect(() => {
-            console.log(" **** Locations before state pulled from API  ****")
-            getLocations()
-        }, [])
-
-    /*
-        eventHub.addeventListener("locationStateChanged", event => {
-            console.log(" **** Locations after state pulled from API  ****")
-        })
-    */
-    useEffect(() => {
-       console.log(" **** Locations after state pulled from API  ****")
-    }, [locations])
-
+        getLocations()
+    }, [])
 
     return (
         <article className="locations">
@@ -32,5 +21,4 @@ export const LocationList = () => {
             }
         </article>
     )
-
 }

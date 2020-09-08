@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider";
 import { LocationContext } from "../location/LocationProvider.js";
-import "./Employee.css"
+import "./Employees.css"
 
 export const EmployeeList = (burrito) => {
     const { employees, getEmployees } = useContext(EmployeeContext)

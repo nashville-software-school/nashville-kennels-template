@@ -9,6 +9,7 @@ import { CustomerList } from "./customer/CustomerList.js"
 import { EmployeeProvider } from "./employee/EmployeeProvider";
 import { EmployeeList } from "./employee/EmployeeList";
 import { EmployeeForm } from "./employee/EmployeeForm.js"
+import { AnimalForm } from "./animal/AnimalForm.js"
 
 export const ApplicationViews = (props) => {
     return (
@@ -22,13 +23,18 @@ export const ApplicationViews = (props) => {
             <AnimalProvider>
                 <CustomerProvider>
                     <LocationProvider>
-                        <Route path="/animals" render={(props) => {
+                        <Route exact path="/animals" render={(props) => {
                             return <AnimalList history={props.history} />
+                        }} />
+
+                        <Route exact path="/animals/create" render={(props) => {
+                            return <AnimalForm {...props} />
                         }} />
 
                     </LocationProvider>
                 </CustomerProvider>
             </AnimalProvider>
+
 
             <CustomerProvider>
                 <Route path="/customers">

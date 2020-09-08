@@ -2,7 +2,7 @@ import React, { useContext, useRef, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider"
 import { LocationContext } from "../location/LocationProvider"
 import { AnimalContext } from "../animal/AnimalProvider"
-import "./Employee.css"
+import "./Employees.css"
 
 export const EmployeeForm = (burrito) => {
     const { addEmployee } = useContext(EmployeeContext)
