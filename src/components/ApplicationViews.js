@@ -10,14 +10,25 @@ import { EmployeeProvider } from "./employee/EmployeeProvider";
 import { EmployeeList } from "./employee/EmployeeList";
 import { EmployeeForm } from "./employee/EmployeeForm.js"
 import { AnimalForm } from "./animal/AnimalForm.js"
+import { EmployeeDetail } from "./employee/EmployeeDetail.js"
+import { LocationDetail } from "./location/LocationDetail.js"
+import { AnimalDetails } from "./animal/AnimalDetail.js"
 
 export const ApplicationViews = (props) => {
     return (
         <>
             <LocationProvider>
-                <Route exact path="/">
-                    <LocationList />
-                </Route>
+                <EmployeeProvider>
+                    <AnimalProvider>
+                        <Route exact path="/">
+                            <LocationList />
+                        </Route>
+
+                        <Route path="/locations/:locationId(\d+)" render={
+                            props => <LocationDetail {...props} />
+                        } />
+                    </AnimalProvider>
+                </EmployeeProvider>
             </LocationProvider>
 
             <AnimalProvider>
@@ -31,6 +42,9 @@ export const ApplicationViews = (props) => {
                             return <AnimalForm {...props} />
                         }} />
 
+                        <Route path="/animals/:animalId(\d+)" render={
+                            props => <AnimalDetails {...props} />
+                        } />
                     </LocationProvider>
                 </CustomerProvider>
             </AnimalProvider>
@@ -55,6 +69,11 @@ export const ApplicationViews = (props) => {
                         <Route path="/employees/create" render={(props) => {
                             return <EmployeeForm {...props} />
                         }} />
+
+
+                        <Route path="/employees/:employeeId(\d+)" render={
+                            props => <EmployeeDetail {...props} />
+                        } />
                     </LocationProvider>
                 </AnimalProvider>
             </EmployeeProvider>

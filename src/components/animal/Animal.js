@@ -1,19 +1,14 @@
 import React from "react"
 import "./Animals.css"
+import { Link } from "react-router-dom"
 
-
-/*
-    {
-        animal: {id: 1....}
-        owner: {id: 1....},
-        location: {id: 1....}
-    }
-*/
-export const Animal = ({ animal, owner, location }) => (
-    <section key={animal.id} className="animal">
-        <div><h3>{animal.name}</h3></div>
-        <div>{animal.breed}</div>
-        <div>Owner: {owner.name}</div>
-        <div>Location: {location.name}</div>
+export default ({ animal }) => (
+    <section className="animal">
+        <h3 className="animal__name">
+            <Link to={`/animals/${animal.id}`}>
+                { animal.name }
+            </Link>
+        </h3>
+        <div className="animal__breed">{ animal.breed }</div>
     </section>
 )

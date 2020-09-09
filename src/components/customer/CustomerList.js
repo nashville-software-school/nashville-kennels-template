@@ -6,19 +6,8 @@ export const CustomerList = () => {
     const {customers, getCustomers} = useContext(CustomerContext)
 
     useEffect(() => {
-            console.log(" **** Customers before state pulled from API  ****")
             getCustomers()
         }, [])
-
-    /*
-        eventHub.addeventListener("CustomerStateChanged", event => {
-            console.log(" **** Customers after state pulled from API  ****")
-        })
-    */
-    useEffect(() => {
-       console.log(" **** Customers after state pulled from API  ****")
-    }, [customers])
-
 
     return (
         <article className="customers">
@@ -32,5 +21,4 @@ export const CustomerList = () => {
             }
         </article>
     )
-
 }

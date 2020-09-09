@@ -1,33 +1,34 @@
 import React, { useContext, useEffect } from "react"
-import { EmployeeContext } from "./EmployeeProvider";
-import { LocationContext } from "../location/LocationProvider.js";
+import { EmployeeContext } from "./EmployeeProvider"
+import { Link } from "react-router-dom"
 import "./Employees.css"
 
-export const EmployeeList = (burrito) => {
+export const EmployeeList = props => {
     const { employees, getEmployees } = useContext(EmployeeContext)
-    const { locations, getLocations } = useContext(LocationContext)
 
     useEffect(() => {
-        getEmployees().then(getLocations)
+        getEmployees()
     }, [])
 
     return (
-        <>
-            <button onClick={() => burrito.history.push("/employees/create")}>
+        <div>
+            <h1>Employees</h1>
+
+            <button onClick={() => props.history.push("/employees/create")}>
                 Add Employee
             </button>
+
             <article className="employees">
                 {
                     employees.map(employee => {
-                        const employeeLocation = locations.find(loc => loc.id === employee.locationId) || {}
-                        return <section key={employee.id} className="employee">
-                            <div><h3>{employee.name}</h3></div>
-                            <div>{employeeLocation.name}</div>
+                        return <section className="employee" key={employee.id}>
+                            <Link to={`/employees/${employee.id}`}>
+                                <h3>{employee.name}</h3>
+                            </Link>
                         </section>
                     })
                 }
             </article>
-        </>
+        </div>
     )
-
 }
