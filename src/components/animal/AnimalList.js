@@ -6,7 +6,7 @@ import "./Animals.css"
 export const AnimalList = ({ history }) => {
     const { getAnimals, animals, searchTerms } = useContext(AnimalContext)
 
-    const [ filteredAnimals, setFiltered ] = useState([])
+    const [filteredAnimals, setFiltered] = useState([])
 
     // Initialization effect hook -> Go get animal data
     useEffect(() => {
@@ -14,13 +14,13 @@ export const AnimalList = ({ history }) => {
     }, [])
 
     useEffect(() => {
-       const matchingAnimals = animals.filter(animal => animal.name.toLowerCase().includes(searchTerms.toLowerCase()))
-       setFiltered(matchingAnimals)
+        const matchingAnimals = animals.filter(animal => animal.name.toLowerCase().includes(searchTerms.toLowerCase()))
+        setFiltered(matchingAnimals)
     }, [searchTerms])
 
 
     useEffect(() => {
-       setFiltered(animals)
+        setFiltered(animals)
     }, [animals])
 
     return (
@@ -29,7 +29,7 @@ export const AnimalList = ({ history }) => {
 
             <button onClick={() => history.push("/animals/create")}>
                 Make Reservation
-                </button>
+            </button>
             <div className="animals">
                 {
                     filteredAnimals.map(animal => {
