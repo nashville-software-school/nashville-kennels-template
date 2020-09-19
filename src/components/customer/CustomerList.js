@@ -23,7 +23,7 @@ export const CustomerList = () => {
                             <div>{customer.address}</div>
 
                             <h4>Animals</h4>
-                            { customer.animals && customer.animals.map(a => <div key={`animal--${a.id}`}>{a.name} ({a.name})</div>)}
+                            { customer.animals && customer.animals.map(a => <div key={`animal--${a.id}`}>{a.name} ({a.breed})</div>)}
                         </section>
                     })
                 }
