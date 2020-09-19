@@ -15,7 +15,7 @@ import { LocationDetail } from "./location/LocationDetail.js"
 import { AnimalDetails } from "./animal/AnimalDetail.js"
 import { AnimalSearch } from "./animal/AnimalSearch.js"
 
-export const ApplicationViews = (props) => {
+export const ApplicationViews = () => {
     return (
         <>
             <LocationProvider>
@@ -35,26 +35,26 @@ export const ApplicationViews = (props) => {
             <AnimalProvider>
                 <CustomerProvider>
                     <LocationProvider>
-
                         <Route exact path="/animals" render={(props) => {
                             return <>
-                                <AnimalSearch />
-                                <AnimalList history={props.history} />
+                                <main className="animalContainer">
+                                    <h1>Animals</h1>
+
+                                    <AnimalSearch />
+                                    <AnimalList history={props.history} />
+                                </main>
+
                             </>
                         }} />
-
 
                         <Route exact path="/animals/create" render={(props) => {
                             return <AnimalForm {...props} />
                         }} />
 
-                        {/*
-                            /animals/2
-                            /animals/:animalId(\d+)
-                        */}
                         <Route path="/animals/:animalId(\d+)" render={
                             props => <AnimalDetails {...props} />
                         } />
+
                         <Route path="/animals/edit/:animalId(\d+)" render={
                             props => <AnimalForm {...props} />
                         } />
@@ -62,11 +62,12 @@ export const ApplicationViews = (props) => {
                 </CustomerProvider>
             </AnimalProvider>
 
-
             <CustomerProvider>
-                <Route path="/customers">
-                    <CustomerList />
-                </Route>
+                <AnimalProvider>
+                    <Route path="/customers">
+                        <CustomerList />
+                    </Route>
+                </AnimalProvider>
             </CustomerProvider>
 
             <Route path="/logout" render={

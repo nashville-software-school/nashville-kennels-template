@@ -11,7 +11,7 @@ export const EmployeeList = props => {
     }, [])
 
     return (
-        <div>
+        <div style={{ margin: "0rem 3rem"}}>
             <h1>Employees</h1>
 
             <button onClick={() => props.history.push("/employees/create")}>

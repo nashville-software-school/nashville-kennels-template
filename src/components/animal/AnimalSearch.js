@@ -7,7 +7,7 @@ export const AnimalSearch = () => {
     return (
         <>
             <div>Search for an animal</div>
-            <input type="text"
+            <input type="text" className="animals__search"
                 onChange={
                     (changeEvent) => {
                         setTerms(changeEvent.target.value)
