@@ -1,66 +1,55 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import { LocationProvider } from "./location/LocationProvider"
-import { AnimalProvider } from "./animal/AnimalProvider"
-import { LocationList } from "./location/LocationList"
-import { AnimalList } from "./animal/AnimalList"
-import { CustomerProvider } from "./customer/CustomerProvider.js"
-import { CustomerList } from "./customer/CustomerList.js"
-import { EmployeeProvider } from "./employee/EmployeeProvider";
+import { Routed as WithRoutingProps } from "./Routed"
+
+import { CustomerProvider } from "./customer/CustomerProvider"
+import { CustomerList } from "./customer/CustomerList"
+
+import { EmployeeProviders } from "./employee/EmployeeProviders.js"
 import { EmployeeList } from "./employee/EmployeeList";
-import { EmployeeForm } from "./employee/EmployeeForm.js"
-import { AnimalForm } from "./animal/AnimalForm.js"
-import { EmployeeDetail } from "./employee/EmployeeDetail.js"
-import { LocationDetail } from "./location/LocationDetail.js"
-import { AnimalDetails } from "./animal/AnimalDetail.js"
-import { AnimalSearch } from "./animal/AnimalSearch.js"
+import { EmployeeForm } from "./employee/EmployeeForm"
+import { EmployeeDetail } from "./employee/EmployeeDetail"
+
+import { LocationProviders } from "./location/LocationProviders"
+import { LocationList } from "./location/LocationList"
+import { LocationDetail } from "./location/LocationDetail"
+
+import { AnimalProviders } from "./animal/AnimalProviders"
+import { AnimalProvider } from "./animal/AnimalProvider"
+import { AnimalDetails } from "./animal/AnimalDetail"
+import { AnimalForm } from "./animal/AnimalForm"
+import { Animals } from "./animal/Animals"
 
 export const ApplicationViews = () => {
     return (
         <>
-            <LocationProvider>
-                <EmployeeProvider>
-                    <AnimalProvider>
-                        <Route exact path="/">
-                            <LocationList />
-                        </Route>
+            <LocationProviders>
+                <Route exact path="/">
+                    <LocationList />
+                </Route>
 
-                        <Route path="/locations/:locationId(\d+)" render={
-                            props => <LocationDetail {...props} />
-                        } />
-                    </AnimalProvider>
-                </EmployeeProvider>
-            </LocationProvider>
+                <WithRoutingProps path="/locations/:locationId(\d+)">
+                    <LocationDetail />
+                </WithRoutingProps>
+            </LocationProviders>
 
-            <AnimalProvider>
-                <CustomerProvider>
-                    <LocationProvider>
-                        <Route exact path="/animals" render={(props) => {
-                            return <>
-                                <main className="animalContainer">
-                                    <h1>Animals</h1>
+            <AnimalProviders>
+                <WithRoutingProps path="/animals">
+                    <Animals />
+                </WithRoutingProps>
 
-                                    <AnimalSearch />
-                                    <AnimalList history={props.history} />
-                                </main>
+                <WithRoutingProps path="/animals/create">
+                    <AnimalForm />
+                </WithRoutingProps>
 
-                            </>
-                        }} />
+                <WithRoutingProps path="/animals/:animalId(\d+)">
+                    <AnimalDetails />
+                </WithRoutingProps>
 
-                        <Route exact path="/animals/create" render={(props) => {
-                            return <AnimalForm {...props} />
-                        }} />
-
-                        <Route path="/animals/:animalId(\d+)" render={
-                            props => <AnimalDetails {...props} />
-                        } />
-
-                        <Route path="/animals/edit/:animalId(\d+)" render={
-                            props => <AnimalForm {...props} />
-                        } />
-                    </LocationProvider>
-                </CustomerProvider>
-            </AnimalProvider>
+                <WithRoutingProps path="/animals/edit/:animalId(\d+)">
+                    <AnimalForm />
+                </WithRoutingProps>
+            </AnimalProviders>
 
             <CustomerProvider>
                 <AnimalProvider>
@@ -70,35 +59,26 @@ export const ApplicationViews = () => {
                 </AnimalProvider>
             </CustomerProvider>
 
+            <EmployeeProviders>
+                <WithRoutingProps path="/employees">
+                    <EmployeeList />
+                </WithRoutingProps>
+
+                <WithRoutingProps path="/employees/create">
+                    <EmployeeForm />
+                </WithRoutingProps>
+
+                <WithRoutingProps path="/employees/:employeeId(\d+)">
+                    <EmployeeDetail />
+                </WithRoutingProps>
+            </EmployeeProviders>
+
             <Route path="/logout" render={
                 (props) => {
                     localStorage.removeItem("kennel_customer")
                     props.history.push("/login")
                 }
             } />
-
-            <EmployeeProvider>
-                <AnimalProvider>
-                    <LocationProvider>
-                        <Route path="/employees/create" render={(props) => {
-                            return <EmployeeForm {...props} />
-                        }} />
-
-
-                        <Route path="/employees/:employeeId(\d+)" render={
-                            props => <EmployeeDetail {...props} />
-                        } />
-                    </LocationProvider>
-                </AnimalProvider>
-            </EmployeeProvider>
-
-            <EmployeeProvider>
-                <LocationProvider>
-                    <Route exact path="/employees" render={(props) => {
-                        return <EmployeeList history={props.history} />
-                    }} />
-                </LocationProvider>
-            </EmployeeProvider>
         </>
     )
 }

@@ -8,6 +8,7 @@ export const Register = (props) => {
     const password = useRef()
     const verifyPassword = useRef()
     const passwordDialog = useRef()
+    const conflictDialog = useRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
@@ -20,25 +21,30 @@ export const Register = (props) => {
 
         if (password.current.value === verifyPassword.current.value) {
             existingUserCheck()
-                .then(() => {
-                    fetch("http://localhost:8088/customers", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            email: email.current.value,
-                            password: password.current.value,
-                            name: `${firstName.current.value} ${lastName.current.value}`
+                .then((userExists) => {
+                    if (!userExists) {
+                        fetch("http://localhost:8088/customers", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                email: email.current.value,
+                                password: password.current.value,
+                                name: `${firstName.current.value} ${lastName.current.value}`
+                            })
                         })
-                    })
-                        .then(_ => _.json())
-                        .then(createdUser => {
-                            if (createdUser.hasOwnProperty("id")) {
-                                localStorage.setItem("kennel_customer", createdUser.id)
-                                props.history.push("/")
-                            }
-                        })
+                            .then(_ => _.json())
+                            .then(createdUser => {
+                                if (createdUser.hasOwnProperty("id")) {
+                                    localStorage.setItem("kennel_customer", createdUser.id)
+                                    props.history.push("/")
+                                }
+                            })
+                    }
+                    else {
+                        conflictDialog.current.showModal()
+                    }
                 })
         } else {
             passwordDialog.current.showModal()
@@ -51,6 +57,11 @@ export const Register = (props) => {
             <dialog className="dialog dialog--password" ref={passwordDialog}>
                 <div>Passwords do not match</div>
                 <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
+            </dialog>
+
+            <dialog className="dialog dialog--password" ref={conflictDialog}>
+                <div>Account with that email address already exists</div>
+                <button className="button--close" onClick={e => conflictDialog.current.close()}>Close</button>
             </dialog>
 
             <form className="form--login" onSubmit={handleRegister}>
@@ -104,4 +115,3 @@ export const Register = (props) => {
         </main>
     )
 }
-

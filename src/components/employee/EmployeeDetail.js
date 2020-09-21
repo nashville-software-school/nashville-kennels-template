@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from "react"
 import { AnimalContext } from "../animal/AnimalProvider"
 import { LocationContext } from "../location/LocationProvider"
+import { RoutingContext } from "../Routed"
 import { EmployeeContext } from "./EmployeeProvider"
 import "./Employees.css"
 
 
-export const EmployeeDetail = (props) => {
+export const EmployeeDetail = () => {
     const { animals, getAnimals } = useContext(AnimalContext)
     const { locations, getLocations } = useContext(LocationContext)
     const { employees, getEmployees } = useContext(EmployeeContext)
+    const { match } = useContext(RoutingContext)
 
     const [animal, setAnimal] = useState({})
     const [employee, setEmployee] = useState({})
@@ -26,7 +28,7 @@ export const EmployeeDetail = (props) => {
     }, [animals])
 
     useEffect(() => {
-        const employee = employees.find(e => e.id === parseInt(props.match.params.employeeId)) || {}
+        const employee = employees.find(e => e.id === parseInt(match.params.employeeId)) || {}
         setEmployee(employee)
     }, [employees])
 

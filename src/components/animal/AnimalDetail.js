@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState } from "react"
+import { RoutingContext } from "../Routed.js"
 import { AnimalContext } from "./AnimalProvider"
 import "./Animals.css"
 
-export const AnimalDetails = (props) => {
+export const AnimalDetails = () => {
     const { releaseAnimal, getAnimalById } = useContext(AnimalContext)
+    const { history, match } = useContext(RoutingContext)
 
     const [animal, setAnimal] = useState({ location: {}, customer: {} })
 
     useEffect(() => {
-        const animalId = parseInt(props.match.params.animalId)
+        const animalId = parseInt(match.params.animalId)
         getAnimalById(animalId)
             .then(setAnimal)
     }, [])
@@ -21,10 +23,12 @@ export const AnimalDetails = (props) => {
             <div className="animal__owner">Customer: {animal.customer.name}</div>
             <div className="animal__treatment">Treatment: {animal.treatment}</div>
 
-            <button onClick={() => releaseAnimal(animal.id).then(() => props.history.push("/animals"))} >Release Animal</button>
+            <button onClick={() => releaseAnimal(animal.id).then(() => history.push("/animals"))}>
+                Release Animal
+            </button>
 
             <button onClick={() => {
-                props.history.push(`/animals/edit/${animal.id}`)
+                history.push(`/animals/edit/${animal.id}`)
             }}>Edit</button>
         </section>
     )

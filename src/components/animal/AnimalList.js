@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from "react"
 import { AnimalContext } from "./AnimalProvider"
+import { RoutingContext } from "../Routed"
 import Animal from "./Animal"
 import "./Animals.css"
 
-export const AnimalList = ({ history }) => {
+export const AnimalList = () => {
     const { getAnimals, animals, searchTerms } = useContext(AnimalContext)
+    const { history } = useContext(RoutingContext)
 
     const [filteredAnimals, setFiltered] = useState([])
 

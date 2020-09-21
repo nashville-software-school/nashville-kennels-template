@@ -3,11 +3,13 @@ import { EmployeeContext } from "./EmployeeProvider"
 import { LocationContext } from "../location/LocationProvider"
 import { AnimalContext } from "../animal/AnimalProvider"
 import "./Employees.css"
+import { RoutingContext } from "../Routed.js"
 
-export const EmployeeForm = (burrito) => {
+export const EmployeeForm = () => {
     const { addEmployee } = useContext(EmployeeContext)
     const { locations, getLocations } = useContext(LocationContext)
     const { animals, getAnimals } = useContext(AnimalContext)
+    const { history } = useContext(RoutingContext)
 
     /*
         Create references that can be attached to the input
@@ -46,7 +48,7 @@ export const EmployeeForm = (burrito) => {
                 locationId,
                 animalId
             })
-            .then(() => burrito.history.push("/employees"))
+            .then(() => history.push("/employees"))
         }
     }
 
