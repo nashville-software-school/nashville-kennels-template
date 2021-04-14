@@ -7,7 +7,6 @@ export const Register = (props) => {
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
-    const passwordDialog = useRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
@@ -41,18 +40,12 @@ export const Register = (props) => {
                         })
                 })
         } else {
-            passwordDialog.current.showModal()
+            alert('Passwords do not match')
         }
     }
 
     return (
         <main style={{ textAlign: "center" }}>
-
-            <dialog className="dialog dialog--password" ref={passwordDialog}>
-                <div>Passwords do not match</div>
-                <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
-            </dialog>
-
             <form className="form--login" onSubmit={handleRegister}>
                 <h1 className="h3 mb-3 font-weight-normal">Please Register for NSS Kennels</h1>
                 <fieldset>
