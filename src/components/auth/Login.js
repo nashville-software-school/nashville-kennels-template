@@ -6,8 +6,6 @@ import "./Login.css"
 export const Login = props => {
     const email = useRef()
     const password = useRef()
-    const existDialog = useRef()
-    const passwordDialog = useRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
@@ -24,23 +22,15 @@ export const Login = props => {
                     localStorage.setItem("kennel_customer", exists.id)
                     props.history.push("/")
                 } else if (exists && exists.password !== password.current.value) {
-                    passwordDialog.current.showModal()
+                    alert('Password does not match')
                 } else if (!exists) {
-                    existDialog.current.showModal()
+                    alert('User does not exist')
                 }
             })
     }
 
     return (
         <main className="container--login">
-            <dialog className="dialog dialog--auth" ref={existDialog}>
-                <div>User does not exist</div>
-                <button className="button--close" onClick={e => existDialog.current.close()}>Close</button>
-            </dialog>
-            <dialog className="dialog dialog--password" ref={passwordDialog}>
-                <div>Password does not match</div>
-                <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
-            </dialog>
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
                     <h1>Nashville Kennels</h1>
