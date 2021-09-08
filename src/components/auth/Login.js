@@ -1,15 +1,16 @@
 import React, { useRef } from "react"
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Login.css"
 
 
-export const Login = props => {
+export const Login = () => {
     const email = useRef()
     const password = useRef()
+    const history = useHistory()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
-            .then(_ => _.json())
+            .then(res => res.json())
             .then(user => user.length ? user[0] : false)
     }
 
@@ -20,7 +21,7 @@ export const Login = props => {
             .then(exists => {
                 if (exists && exists.password === password.current.value) {
                     localStorage.setItem("kennel_customer", exists.id)
-                    props.history.push("/")
+                    history.push("/")
                 } else if (exists && exists.password !== password.current.value) {
                     alert('Password does not match')
                 } else if (!exists) {

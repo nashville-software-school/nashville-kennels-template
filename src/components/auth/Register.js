@@ -1,16 +1,18 @@
 import React, { useRef } from "react"
+import { useHistory } from 'react-router-dom'
 import "./Login.css"
 
-export const Register = (props) => {
+export const Register = () => {
     const firstName = useRef()
     const lastName = useRef()
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
+    const history = useHistory()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
-            .then(_ => _.json())
+            .then(res => res.json())
             .then(user => !!user.length)
     }
 
@@ -35,7 +37,7 @@ export const Register = (props) => {
                         .then(createdUser => {
                             if (createdUser.hasOwnProperty("id")) {
                                 localStorage.setItem("kennel_customer", createdUser.id)
-                                props.history.push("/")
+                                history.push("/")
                             }
                         })
                 })
