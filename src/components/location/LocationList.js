@@ -1,18 +1,30 @@
-import React, { useContext, useEffect } from "react"
-import { EmployeeContext } from "../employee/EmployeeProvider"
-import { LocationContext } from "./LocationProvider"
-import { AnimalContext } from "../animal/AnimalProvider"
+import React, { useState, useEffect } from "react"
+import { getEmployees } from "../employee/EmployeeManager"
+import { getLocations } from "./LocationManager"
+import { getAnimals } from "../animal/AnimalManager"
 import { Link } from "react-router-dom"
 import "./Locations.css"
 
 export const LocationList = () => {
-    const { locations, getLocations } = useContext(LocationContext)
-    const { employees, getEmployees } = useContext(EmployeeContext)
-    const { animals, getAnimals } = useContext(AnimalContext)
+    const [locations, setLocations] = useState([])
+    const [employees, setEmployees] = useState([])
+    const [animals, setAnimals] = useState([])
 
     useEffect(() => {
-        getLocations().then(getEmployees).then(getAnimals)
+
+        getEmployees().then(employeesData => setEmployees(employeesData))
+        getAnimals().then(animalsData => setAnimals(animalsData))
     }, [])
+
+    useEffect(() => {
+        getLocations().then(locationsData => {
+            const combined = locationsData.map(location => {
+                location.employees = employees.filter(e => e.locationId === location.id)
+                location.animals = animals.filter(a => a.locationId === location.id)
+            })
+            setLocations(combined)
+        })
+    }, [employees, animals])
 
     return (
         <div style={{ margin: "0rem 3rem" }}>
@@ -21,9 +33,6 @@ export const LocationList = () => {
             <div className="locations">
                 {
                     locations.map(location => {
-                        location.employees = employees.filter(e => e.locationId === location.id)
-                        location.animals = animals.filter(a => a.locationId === location.id)
-
                         return <article key={`location--${location.id}`} className="card location" style={{ width: `18rem` }}>
                             <section className="card-body">
 
