@@ -1,20 +1,21 @@
-import React, { useContext, useEffect } from "react"
-import { EmployeeContext } from "./EmployeeProvider"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+import { Link, useHistory } from "react-router-dom"
+import { getEmployees } from "./EmployeeManager"
 import "./Employees.css"
 
-export const EmployeeList = props => {
-    const { employees, getEmployees } = useContext(EmployeeContext)
-
+export const EmployeeList = () => {
+    const [ employees, setEmployees ] = useState([])
+    const history = useHistory()
+    
     useEffect(() => {
-        getEmployees()
+        getEmployees().then(employeesData => setEmployees(employeesData))
     }, [])
 
     return (
         <div style={{ margin: "0rem 3rem"}}>
             <h1>Employees</h1>
 
-            <button onClick={() => props.history.push("/employees/create")}>
+            <button onClick={() => history.push("/employees/create")}>
                 Add Employee
             </button>
 
