@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from "react"
-import { AnimalContext } from "../animal/AnimalProvider.js";
-import { CustomerContext } from "./CustomerProvider";
+import React, { useEffect, useState } from "react"
+import { getAnimals } from "../animal/AnimalManager";
+import { getCustomers } from "./CustomerManager";
 import "./Customers.css"
 
 export const CustomerList = () => {
-    const { customers, getCustomers } = useContext(CustomerContext)
-    const { animals, getAnimals } = useContext(AnimalContext)
+    const [ animals, setAnimals ] = useState([])
+    const [ customers, setCustomers ] = useState([])
 
     useEffect(() => {
-        getCustomers().then(getAnimals)
+        getCustomers().then(customersData => setCustomers(customersData))
+        getAnimals().then(animalsData => setAnimals(animalsData))
     }, [])
 
     return (
