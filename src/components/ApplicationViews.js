@@ -13,7 +13,6 @@ import { AnimalForm } from "./animal/AnimalForm.js"
 import { EmployeeDetail } from "./employee/EmployeeDetail.js"
 import { LocationDetail } from "./location/LocationDetail.js"
 import { AnimalDetails } from "./animal/AnimalDetail.js"
-import { AnimalSearch } from "./animal/AnimalSearch.js"
 
 export const ApplicationViews = () => {
     return (
@@ -35,13 +34,12 @@ export const ApplicationViews = () => {
             <AnimalProvider>
                 <CustomerProvider>
                     <LocationProvider>
-                        <Route exact path="/animals" render={(props) => {
+                        <Route exact path="/animals" render={() => {
                             return <>
                                 <main className="animalContainer">
                                     <h1>Animals</h1>
 
-                                    <AnimalSearch />
-                                    <AnimalList history={props.history} />
+                                    <AnimalList />
                                 </main>
 
                             </>

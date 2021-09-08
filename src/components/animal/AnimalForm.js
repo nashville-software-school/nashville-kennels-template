@@ -1,18 +1,17 @@
 import React, { useContext, useState, useEffect } from "react"
-import { AnimalContext } from "./AnimalProvider"
+import { addAnimal, updateAnimal, getAnimalById } from "./AnimalManager"
 import { LocationContext } from "../location/LocationProvider"
+import { useParams } from 'react-router-dom'
 
-
-export const AnimalForm = (props) => {
+export const AnimalForm = () => {
     // Use the required context providers for data
     const { locations, getLocations } = useContext(LocationContext)
-    const { addAnimal, animals, updateAnimal, getAnimals } = useContext(AnimalContext)
-
+    const { animalId } = useParams()
     // Component state
     const [animal, setAnimal] = useState({})
 
     // Is there a a URL parameter??
-    const editMode = props.match.params.hasOwnProperty("animalId")  // true or false
+    const editMode = animalId ? true : false  // true or false
 
     const handleControlledInputChange = (event) => {
         /*
@@ -24,31 +23,17 @@ export const AnimalForm = (props) => {
         setAnimal(newAnimal)                                 // Set copy as new state
     }
 
-    /*
-        If there is a URL parameter, then the user has chosen to
-        edit an animal.
-            1. Get the value of the URL parameter.
-            2. Use that `id` to find the animal.
-            3. Update component state variable.
-    */
-    const getAnimalInEditMode = () => {
-        if (editMode) {
-            const animalId = parseInt(props.match.params.animalId)
-            const selectedAnimal = animals.find(a => a.id === animalId) || {}
-            setAnimal(selectedAnimal)
-        }
-    }
-
     // Get animals from API when component initializes
     useEffect(() => {
-        getAnimals()
+        if (editMode) {
+            getAnimalById(animalId).then((res) => {
+                setAnimal(res)
+            })
+        }
         getLocations()
     }, [])
 
-    // Once provider state is updated, determine the animal (if edit)
-    useEffect(() => {
-        getAnimalInEditMode()
-    }, [animals])
+
 
 
     const constructNewAnimal = () => {
@@ -67,7 +52,7 @@ export const AnimalForm = (props) => {
                     treatment: animal.treatment,
                     customerId: parseInt(localStorage.getItem("kennel_customer"))
                 })
-                    .then(() => props.history.push("/animals"))
+                    .then(() => history.push("/animals"))
             } else {
                 // POST
                 addAnimal({
@@ -77,7 +62,7 @@ export const AnimalForm = (props) => {
                     treatment: animal.treatment,
                     customerId: parseInt(localStorage.getItem("kennel_customer"))
                 })
-                    .then(() => props.history.push("/animals"))
+                    .then(() => history.push("/animals"))
             }
         }
     }
