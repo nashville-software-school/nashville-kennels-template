@@ -1,14 +1,15 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { addAnimal, updateAnimal, getAnimalById } from "./AnimalManager"
-import { LocationContext } from "../location/LocationProvider"
-import { useParams } from 'react-router-dom'
+import { getLocations } from "../location/LocationManager"
+import { useParams, useHistory } from 'react-router-dom'
 
 export const AnimalForm = () => {
     // Use the required context providers for data
-    const { locations, getLocations } = useContext(LocationContext)
+    const [ locations, setLocations ] = useState([])
     const { animalId } = useParams()
     // Component state
     const [animal, setAnimal] = useState({})
+    const history = useHistory()
 
     // Is there a a URL parameter??
     const editMode = animalId ? true : false  // true or false
@@ -30,11 +31,8 @@ export const AnimalForm = () => {
                 setAnimal(res)
             })
         }
-        getLocations()
+        getLocations().then(locationsData => setLocations(locationsData))
     }, [])
-
-
-
 
     const constructNewAnimal = () => {
         const locationId = parseInt(animal.locationId)
@@ -94,15 +92,17 @@ export const AnimalForm = () => {
                 <div className="form-group">
                     <label htmlFor="locationId">Location: </label>
                     <select name="locationId" className="form-control"
-                        value={animal.locationId}
+                        value={animal.location_id}
                         onChange={handleControlledInputChange}>
 
                         <option value="0">Select a location</option>
-                        {locations.map(e => (
-                            <option key={e.id} value={e.id}>
-                                {e.name}
-                            </option>
-                        ))}
+                        {
+                            locations.map(e => (
+                                <option key={e.id} value={e.id}>
+                                    {e.name}
+                                </option>
+                            ))
+                        }
                     </select>
                 </div>
             </fieldset>

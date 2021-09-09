@@ -12,12 +12,12 @@ export const AnimalList = () => {
     const history = useHistory()
 
     // Initialization effect hook -> Go get animal data
-    useEffect(() => {
-        getAnimals().then((animalsData) => setAnimals(animalsData))
-    }, [])
-
     useEffect(()=> {
-        getAnimalsBySearchTerm(searchTerm).then((animalsData) => setAnimals(animalsData))
+        if (searchTerm.length > 1) {
+            getAnimalsBySearchTerm(searchTerm).then((animalsData) => setAnimals(animalsData))
+        } else {
+            getAnimals().then((animalsData) => setAnimals(animalsData))
+        }
     }, [searchTerm])
 
     const onSearchTermChange = (value) => {

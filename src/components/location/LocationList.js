@@ -17,13 +17,16 @@ export const LocationList = () => {
     }, [])
 
     useEffect(() => {
-        getLocations().then(locationsData => {
-            const combined = locationsData.map(location => {
-                location.employees = employees.filter(e => e.locationId === location.id)
-                location.animals = animals.filter(a => a.locationId === location.id)
+        if (employees && animals) {
+            getLocations().then(locationsData => {
+                const combined = locationsData.map(location => {
+                    location.employees = employees.filter(e => e.location_id === location.id)
+                    location.animals = animals.filter(a => a.location_id === location.id)
+                    return location
+                })
+                setLocations(combined)
             })
-            setLocations(combined)
-        })
+        }
     }, [employees, animals])
 
     return (
