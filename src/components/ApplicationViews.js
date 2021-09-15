@@ -17,54 +17,47 @@ export const ApplicationViews = () => {
                 <LocationList />
             </Route>
 
-            <Route path="/locations/:locationId(\d+)" render={
-                props => <LocationDetail {...props} />
-            } />
+            <Route path="/locations/:locationId(\d+)">
+                <LocationDetail />
+            </Route>
 
-            <Route exact path="/animals" render={() => {
-                return <>
+            <Route exact path="/animals">
+                <>
                     <main className="animalContainer">
                         <h1>Animals</h1>
 
                         <AnimalList />
                     </main>
                 </>
-            }} />
+            </Route>
 
-            <Route exact path="/animals/create" render={(props) => {
-                return <AnimalForm {...props} />
-            }} />
+            <Route exact path="/animals/create">
+                <AnimalForm />
+            </Route>
 
-            <Route path="/animals/:animalId(\d+)" render={
-                props => <AnimalDetails {...props} />
-            } />
+            <Route path="/animals/:animalId(\d+)">
+                <AnimalDetails />
+            </Route>
 
-            <Route path="/animals/edit/:animalId(\d+)" render={
-                props => <AnimalForm {...props} />
-            } />
+            <Route path="/animals/edit/:animalId(\d+)">
+                <AnimalForm />
+            </Route>
 
             <Route path="/customers">
                 <CustomerList />
             </Route>
 
-            <Route path="/logout" render={
-                (props) => {
-                    localStorage.removeItem("kennel_customer")
-                    props.history.push("/login")
-                }
-            } />
+            <Route path="/employees/create">
+                <EmployeeForm />
+            </Route>
 
-            <Route path="/employees/create" render={(props) => {
-                return <EmployeeForm {...props} />
-            }} />
+            <Route path="/employees/:employeeId(\d+)">
+                <EmployeeDetail />
+            </Route>
 
-            <Route path="/employees/:employeeId(\d+)" render={
-                props => <EmployeeDetail {...props} />
-            } />
-
-            <Route exact path="/employees" render={(props) => {
-                return <EmployeeList {...props} />
-            }} />
+            <Route exact path="/employees">
+                <EmployeeList />
+            </Route>
         </>
     )
 }
