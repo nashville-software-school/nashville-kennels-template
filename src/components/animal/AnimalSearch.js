@@ -1,16 +1,15 @@
-import React, { useContext } from "react"
-import { AnimalContext } from "./AnimalProvider"
+import React from "react"
 
-export const AnimalSearch = () => {
-    const { setTerms } = useContext(AnimalContext)
+export const AnimalSearch = ({searchTerms, onSearchTermChange}) => {
 
     return (
         <>
             <div>Search for an animal</div>
             <input type="text" className="animals__search"
+                value={searchTerms}
                 onChange={
                     (changeEvent) => {
-                        setTerms(changeEvent.target.value)
+                        onSearchTermChange(changeEvent.target.value)
                     }
                 }
                 placeholder="Enter search string here..." />

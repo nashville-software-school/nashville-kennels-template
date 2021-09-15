@@ -1,31 +1,26 @@
-import React, { useContext, useRef, useEffect } from "react"
-import { EmployeeContext } from "./EmployeeProvider"
-import { LocationContext } from "../location/LocationProvider"
-import { AnimalContext } from "../animal/AnimalProvider"
+import React, { useState, useRef, useEffect } from "react"
+import { useHistory } from 'react-router-dom'
+import { addEmployee } from "./EmployeeManager"
+import { getLocations } from "../location/LocationManager"
+import { getAnimals } from "../animal/AnimalManager"
 import "./Employees.css"
 
-export const EmployeeForm = (burrito) => {
-    const { addEmployee } = useContext(EmployeeContext)
-    const { locations, getLocations } = useContext(LocationContext)
-    const { animals, getAnimals } = useContext(AnimalContext)
-
-    /*
-        Create references that can be attached to the input
-        fields in the form. This will allow you to get the
-        value of the input fields later when the user clicks
-        the save button.
-
-        No more `document.querySelector()` in React.
-    */
+export const EmployeeForm = () => {
     const name = useRef(null)
     const location = useRef(null)
     const animal = useRef(null)
+
+    const history = useHistory()
+
+    const [animals, setAnimals] = useState([])
+    const [locations, setLocations] = useState([])
 
     /*
         Get animal state and location state on initialization.
     */
     useEffect(() => {
-       getAnimals().then(getLocations)
+       getAnimals().then(animalsData => setAnimals(animalsData))
+       getLocations().then(locationsData => setLocations(locationsData))
     }, [])
 
     const constructNewEmployee = () => {
@@ -46,7 +41,7 @@ export const EmployeeForm = (burrito) => {
                 locationId,
                 animalId
             })
-            .then(() => burrito.history.push("/employees"))
+            .then(() => history.push("/employees"))
         }
     }
 
