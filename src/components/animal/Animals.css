@@ -19,3 +19,9 @@
   .animals__search {
       width: 25rem;
   }
+
+  .animal__status {
+      color: darkgoldenrod;
+      border: 2px dotted cornsilk;
+      letter-spacing: 1rem;
+  }
