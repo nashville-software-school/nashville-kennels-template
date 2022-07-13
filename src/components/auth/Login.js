@@ -40,7 +40,7 @@ export const Login = () => {
                         <label htmlFor="inputEmail"> Email address </label>
                         <input ref={email} type="email"
                             id="email"
-                            defaultValue="steve@stevebrownlee.com"
+                            defaultValue="mo@silvera.com"
                             className="form-control"
                             placeholder="Email address"
                             required autoFocus />
@@ -49,7 +49,7 @@ export const Login = () => {
                         <label htmlFor="inputPassword"> Password </label>
                         <input ref={password} type="password"
                             id="password"
-                            defaultValue="me"
+                            defaultValue="password"
                             className="form-control"
                             placeholder="Password"
                             required />
